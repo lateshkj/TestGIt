@@ -1,0 +1,56 @@
+public void addListenerOnButton1()
+    {
+
+        //Reading Parse Data to Variables
+
+        button = (Button) findViewById(R.id.btnRead);
+        button.setOnClickListener(new OnClickListener()
+
+        {
+            //EditText id, name, email, phone;
+            String ID, Name, Email, Phone;
+          @Override
+            public void onClick(View arg0)
+            {
+
+                final ParseObject testObject = new ParseObject("TestObject");
+                final ParseQuery<ParseObject> query = ParseQuery.getQuery("TestObject");
+                query.whereEqualTo("Name", "Latesh");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                   public void done(List<ParseObject> testObjectList, ParseException e) {
+                        Toast bread;
+                       String names;
+                      if (e == null) {
+                            bread = Toast.makeText(getApplicationContext(), "Success" , Toast.LENGTH_LONG);
+                            bread.show();
+                          TextView tv = (TextView) findViewById(R.id.txtViewName);
+                           tv.setText(testObjectList.toString());
+                            Log.d("test", "Retrieved " + testObjectList.size() + " testObjects");
+
+                          for(ParseObject TestObject : testObjectList)
+                         {
+                          //testObject.get("Name");
+                         // names = (String) testObject.get("Name").toString();
+                              TestObject.get("Name");
+                              names = (String) TestObject.get("Name").toString();
+                              tv.setText(names);
+
+                          }
+
+                        } else {
+                            bread = Toast.makeText(getApplicationContext(), "Error" , Toast.LENGTH_LONG);
+                            bread.show();
+                          Log.d("test", "Error: " + e.getMessage());
+                        }
+
+                    }
+                });
+
+
+
+            }
+
+        });
+
+
+    }
